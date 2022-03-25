@@ -35,3 +35,18 @@ bool BluidEngine::isOpen()
 {
     return this->_window.isOpen();
 }
+
+sf::RenderWindow &BluidEngine::getWindow()
+{
+    return this->_window;
+}
+
+sf::Vector2i BluidEngine::getActPos()
+{
+    return this->_actPos;
+}
+
+sf::Vector2i BluidEngine::getLastPos()
+{
+    return this->_lastPos;
+}
