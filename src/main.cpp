@@ -11,11 +11,10 @@
 int main(void)
 {
     BluidEngine engine;
-    Button button1({500, 500}, "ratio", {3, 4});
+
     while (engine.isOpen()) {
-        if (engine.eventHandler())
-            button1.setValue(engine.getActPos());
-        engine.draw(button1);
+        engine.eventHandler();
+        engine.draw();
     }
     return 0;
 }

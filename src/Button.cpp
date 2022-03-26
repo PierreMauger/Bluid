@@ -17,17 +17,17 @@ Button::Button(sf::Vector2f pos, std::string name, sf::Vector2f scale)
 
     this->_tempBox.setPosition({pos.x, pos.y});
     this->_tempBox.setSize({400, 100});
-    this->_tempBox.setFillColor(sf::Color::Red);
+    this->_tempBox.setFillColor(sf::Color(0, 0, 255));
 
     this->_boxSlider.setPosition({pos.x + 100, pos.y + 25});
     this->_boxSlider.setSize({this->_value * 200 / (this->_scale.y - this->_scale.x), 50});
-    this->_boxSlider.setFillColor(sf::Color::Blue);
+    this->_boxSlider.setFillColor(sf::Color(30, 150, 255));
 
     this->_pos = {this->_boxSlider.getPosition().x, this->_boxSlider.getPosition().y, 200, 50};
 
     this->_boxValue.setPosition({pos.x + 320, pos.y + 25});
     this->_boxValue.setSize({60, 50});
-    this->_boxValue.setFillColor(sf::Color::Green);
+    this->_boxValue.setFillColor(sf::Color(135, 206, 240));
 
     this->_text_value.setCharacterSize(20);
     this->_text_value.setFont(this->_font);

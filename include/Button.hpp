@@ -8,7 +8,8 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-#include "Bluid.hpp"
+#include <SFML/Graphics.hpp>
+#include <iomanip>
 
 class Button {
     private:

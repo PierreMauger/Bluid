@@ -14,9 +14,8 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <string>
-#include <iomanip>
 
-class Button;
+#include "Button.hpp"
 
 typedef struct pixel_s
 {
@@ -31,17 +30,18 @@ private:
     sf::Vector2i _actPos;
     sf::Vector2i _lastPos;
     pixel_t **_map; // temp, waiting for pixelstruct
+    std::vector<Button *> _buttonList;
 
 public:
     BluidEngine(void);
     ~BluidEngine() = default;
     bool isOpen(void);
     void update(void);
-    bool eventHandler(void);
-    void draw(Button Button);
-    sf::RenderWindow &getWindow();
-    sf::Vector2i getActPos();
-    sf::Vector2i getLastPos();
+    void eventHandler(void);
+    void draw(void);
+    sf::RenderWindow &getWindow(void);
+    sf::Vector2i getActPos(void);
+    sf::Vector2i getLastPos(void);
 };
 
 #endif // BLUID_HPP
