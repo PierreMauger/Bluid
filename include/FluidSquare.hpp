@@ -12,6 +12,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
 
 class FluidSquare {
 

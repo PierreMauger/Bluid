@@ -220,5 +220,6 @@ void FluidSquare::mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos)
 
 float FluidSquare::getDensity(int i, int j)
 {
+    std::cout << _density[IX(i, j, this->_size)] << std::endl;
     return _density[IX(i, j, this->_size)];
 }

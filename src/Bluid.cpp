@@ -24,6 +24,7 @@ BluidEngine::~BluidEngine(void)
 {
     for (Button *button : this->_buttonList)
         delete button;
+    //add destructors
 }
 
 void BluidEngine::eventHandler(void)
@@ -78,5 +79,6 @@ void BluidEngine::draw(void)
         }
     }
     this->_buf.update(this->_vertices);
+    this->_window.draw(this->_buf);
     this->_window.display();
 }
