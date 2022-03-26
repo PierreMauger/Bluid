@@ -7,8 +7,15 @@
 
 #include "FluidSquare.hpp"
 
-FluidSquare::FluidSquare(int iteration, float dt, float diffusion, float viscosity)
+FluidSquare::FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity) :
+_s(size, 0),
+_density(size, 0),
+_Vx(size, 0),
+_Vy(size, 0),
+_Vx0(size, 0),
+_Vy0(size, 0)
 {
+    this->_size = size;
     this->_iteration = iteration;
     this->_dt = dt;
     this->_diff = diffusion;
@@ -33,68 +40,68 @@ void FluidSquare::step(void)
 
 void FluidSquare::addDensity(int x, int y, float amount)
 {
-    this->_density[IX(x, y)] += amount;
+    this->_density[IX(x, y, this->_size)] += amount;
 }
 
 void FluidSquare::addVelocity(int x, int y, float amountX, float amountY)
 {
-    std::size_t index = IX(x, y);
+    std::size_t index = IX(x, y, this->_size);
 
     this->_Vx[index] += amountX;
     this->_Vy[index] += amountY;
 }
 
-void FluidSquare::set_bound(int bound, std::array<float, NBR_VALUES> &bndValues)
+void FluidSquare::set_bound(int bound, std::vector<float> &bndValues)
 {
-    int toBrowse = SIZE_BOUND - 1;
-    int minusTwo = SIZE_BOUND - 2;
+    int toBrowse = this->_size - 1;
+    int minusTwo = this->_size - 2;
 
     for (int i = 1; i < toBrowse; i++) {
-        bndValues[IX(i, 0)] = bound == 2 ? -1 * bndValues[IX(i, 1)] : bndValues[IX(i, 1)];
-        bndValues[IX(i, toBrowse)] = bound == 2 ? -1 * bndValues[IX(i, minusTwo)] : bndValues[IX(i, minusTwo)];
+        bndValues[IX(i, 0, this->_size)] = bound == 2 ? -1 * bndValues[IX(i, 1, this->_size)] : bndValues[IX(i, 1, this->_size)];
+        bndValues[IX(i, toBrowse, this->_size)] = bound == 2 ? -1 * bndValues[IX(i, minusTwo, this->_size)] : bndValues[IX(i, minusTwo, this->_size)];
     }
     for (int j = 1; j < toBrowse; j++) {
-        bndValues[IX(0, j)] = bound == 1 ? -1 * bndValues[IX(1, j)] : bndValues[IX(1, j)];
-        bndValues[IX(toBrowse, j)] = bound == 1 ? -1 * bndValues[IX(minusTwo, j)] : bndValues[IX(minusTwo, j)];
+        bndValues[IX(0, j, this->_size)] = bound == 1 ? -1 * bndValues[IX(1, j, this->_size)] : bndValues[IX(1, j, this->_size)];
+        bndValues[IX(toBrowse, j, this->_size)] = bound == 1 ? -1 * bndValues[IX(minusTwo, j, this->_size)] : bndValues[IX(minusTwo, j, this->_size)];
     }
-    bndValues[IX(0, 0)] = 0.5f * (bndValues[IX(1, 0)] + bndValues[IX(0, 1)]);
-    bndValues[IX(0, toBrowse)] = 0.5f * (bndValues[IX(1, toBrowse)] + bndValues[IX(0, minusTwo)]);
-    bndValues[IX(toBrowse, 0)] = 0.5f * (bndValues[IX(minusTwo, 0)] + bndValues[IX(toBrowse, 1)]);
-    bndValues[IX(toBrowse, toBrowse)] = 0.5f * (bndValues[IX(minusTwo, toBrowse)] + bndValues[IX(toBrowse, minusTwo)]);
+    bndValues[IX(0, 0, this->_size)] = 0.5f * (bndValues[IX(1, 0, this->_size)] + bndValues[IX(0, 1, this->_size)]);
+    bndValues[IX(0, toBrowse, this->_size)] = 0.5f * (bndValues[IX(1, toBrowse, this->_size)] + bndValues[IX(0, minusTwo, this->_size)]);
+    bndValues[IX(toBrowse, 0, this->_size)] = 0.5f * (bndValues[IX(minusTwo, 0, this->_size)] + bndValues[IX(toBrowse, 1, this->_size)]);
+    bndValues[IX(toBrowse, toBrowse, this->_size)] = 0.5f * (bndValues[IX(minusTwo, toBrowse, this->_size)] + bndValues[IX(toBrowse, minusTwo, this->_size)]);
 }
 
 void FluidSquare::diffuse(
     int bound,
-    std::array<float, NBR_VALUES> &bndValues,
-    std::array<float, NBR_VALUES> &bndValues0,
+    std::vector<float> &bndValues,
+    std::vector<float> &bndValues0,
     float diff
 )
 {
-    float coef = this->_dt * diff * (SIZE_BOUND - 2) * (SIZE_BOUND - 2);
+    float coef = this->_dt * diff * (this->_size - 2) * (this->_size - 2);
 
     this->lin_solve(bound, bndValues, bndValues0, coef, 1 + 4 * coef);
 }
 
 void FluidSquare::lin_solve(
     int bound,
-    std::array<float, NBR_VALUES> &bndValues,
-    std::array<float, NBR_VALUES> &bndValues0,
+    std::vector<float> &bndValues,
+    std::vector<float> &bndValues0,
     float coef,
     float coef_all
 )
 {
-    int toBrowse = SIZE_BOUND - 1;
+    int toBrowse = this->_size - 1;
     float cRecip = 1.0 / coef_all;
 
     for (int k = 0; k < this->_iteration; k++) {
         for (int j = 1; j < toBrowse; j++) {
             for (int i = 1; i < toBrowse; i++) {
-                bndValues[IX(i, j)] = (
-                    bndValues0[IX(i, j)] + coef * (
-                        bndValues[IX(i + 1, j)] +
-                        bndValues[IX(i - 1, j)] +
-                        bndValues[IX(i, j + 1)] +
-                        bndValues[IX(i, j - 1)]
+                bndValues[IX(i, j, this->_size)] = (
+                    bndValues0[IX(i, j, this->_size)] + coef * (
+                        bndValues[IX(i + 1, j, this->_size)] +
+                        bndValues[IX(i - 1, j, this->_size)] +
+                        bndValues[IX(i, j + 1, this->_size)] +
+                        bndValues[IX(i, j - 1, this->_size)]
                     )
                 ) * cRecip;
             }
@@ -105,15 +112,15 @@ void FluidSquare::lin_solve(
 
 void FluidSquare::projectVelocValues(
     int toBrowse,
-    std::array<float, NBR_VALUES> &velocX,
-    std::array<float, NBR_VALUES> &velocY,
-    std::array<float, NBR_VALUES> &p
+    std::vector<float> &velocX,
+    std::vector<float> &velocY,
+    std::vector<float> &p
 )
 {
     for (int j = 1; j < toBrowse; j++) {
         for (int i = 1; i < toBrowse; i++) {
-            velocX[IX(i, j)] -= 0.5f * (p[IX(i + 1, j)] - p[IX(i - 1, j)]) * SIZE_BOUND;
-            velocY[IX(i, j)] -= 0.5f * (p[IX(i, j + 1)] - p[IX(i, j - 1)]) * SIZE_BOUND;
+            velocX[IX(i, j, this->_size)] -= 0.5f * (p[IX(i + 1, j, this->_size)] - p[IX(i - 1, j, this->_size)]) * this->_size;
+            velocY[IX(i, j, this->_size)] -= 0.5f * (p[IX(i, j + 1, this->_size)] - p[IX(i, j - 1, this->_size)]) * this->_size;
         }
     }
     this->set_bound(1, velocX);
@@ -122,21 +129,21 @@ void FluidSquare::projectVelocValues(
 
 void FluidSquare::projectVelocBounds(
     int toBrowse,
-    std::array<float, NBR_VALUES> &velocX,
-    std::array<float, NBR_VALUES> &velocY,
-    std::array<float, NBR_VALUES> &p,
-    std::array<float, NBR_VALUES> &div
+    std::vector<float> &velocX,
+    std::vector<float> &velocY,
+    std::vector<float> &p,
+    std::vector<float> &div
 )
 {
     for (int j = 1; j < toBrowse; j++) {
         for (int i = 1; i < toBrowse; i++) {
-            div[IX(i, j)] = -0.5f * (
-                velocX[IX(i + 1, j)] -
-                velocX[IX(i - 1, j)] +
-                velocY[IX(i, j + 1)] -
-                velocY[IX(i, j - 1)]
-            ) / SIZE_BOUND;
-            p[IX(i, j)] = 0;
+            div[IX(i, j, this->_size)] = -0.5f * (
+                velocX[IX(i + 1, j, this->_size)] -
+                velocX[IX(i - 1, j, this->_size)] +
+                velocY[IX(i, j + 1, this->_size)] -
+                velocY[IX(i, j - 1, this->_size)]
+            ) / this->_size;
+            p[IX(i, j, this->_size)] = 0;
         }
     }
     this->set_bound(0, div);
@@ -145,13 +152,13 @@ void FluidSquare::projectVelocBounds(
 }
 
 void FluidSquare::project(
-    std::array<float, NBR_VALUES> &velocX,
-    std::array<float, NBR_VALUES> &velocY,
-    std::array<float, NBR_VALUES> &p,
-    std::array<float, NBR_VALUES> &div
+    std::vector<float> &velocX,
+    std::vector<float> &velocY,
+    std::vector<float> &p,
+    std::vector<float> &div
 )
 {
-    int toBrowse = SIZE_BOUND - 1;
+    int toBrowse = this->_size - 1;
 
     this->projectVelocBounds(toBrowse, velocX, velocY, p, div);
     this->projectVelocValues(toBrowse, velocX, velocY, p);
@@ -164,26 +171,26 @@ float FluidSquare::setCoordValue(float coord, float freq, float caseVal)
     if (res < 0.5f) {
         res = 0.5f;
     }
-    else if (res > SIZE_BOUND + 0.5f) {
-        res = SIZE_BOUND + 0.5f;
+    else if (res > this->_size + 0.5f) {
+        res = this->_size + 0.5f;
     }
     return res;
 }
 
 void FluidSquare::advect(
     int bound,
-    std::array<float, NBR_VALUES> &d,
-    std::array<float, NBR_VALUES> &d0,
-    std::array<float, NBR_VALUES> &velocX,
-    std::array<float, NBR_VALUES> &velocY
+    std::vector<float> &d,
+    std::vector<float> &d0,
+    std::vector<float> &velocX,
+    std::vector<float> &velocY
 )
 {
     float i0 = 0;
     float i1 = 0;
     float j0 = 0;
     float j1 = 0;
-    float dtx = this->_dt * (SIZE_BOUND - 2);
-    float dty = this->_dt * (SIZE_BOUND - 2);
+    float dtx = this->_dt * (this->_size - 2);
+    float dty = this->_dt * (this->_size - 2);
     float s0 = 0;
     float s1 = 0;
     float t0 = 0;
@@ -193,10 +200,10 @@ void FluidSquare::advect(
     float ifloat = 1;
     float jfloat = 1;
 
-    for (int j = 1; j < SIZE_BOUND - 1; j++, jfloat++) {
-        for (int i = 1; i < SIZE_BOUND - 1; i++, ifloat++) {
-            x = setCoordValue(ifloat, dtx, velocX[IX(i, j)]);
-            y = setCoordValue(jfloat, dty, velocY[IX(i, j)]);
+    for (int j = 1; j < this->_size - 1; j++, jfloat++) {
+        for (int i = 1; i < this->_size - 1; i++, ifloat++) {
+            x = setCoordValue(ifloat, dtx, velocX[IX(i, j, this->_size)]);
+            y = setCoordValue(jfloat, dty, velocY[IX(i, j, this->_size)]);
 
             i0 = int(x);
             i1 = i0 + 1.0f;
@@ -207,11 +214,11 @@ void FluidSquare::advect(
             t1 = y - j0;
             t0 = 1.0f - t1;
 
-            d[IX(i, j)] =
-                s0 * (t0 * d0[IX(int(i0), int(j0))] +
-                t1 * d0[IX(int(i0), int(j1))]) +
-                s1 * (t0 * d0[IX(int(i1), int(j0))] +
-                t1 * d0[IX(int(i1), int(j1))]);
+            d[IX(i, j, this->_size)] =
+                s0 * (t0 * d0[IX(int(i0), int(j0), this->_size)] +
+                t1 * d0[IX(int(i0), int(j1), this->_size)]) +
+                s1 * (t0 * d0[IX(int(i1), int(j0), this->_size)] +
+                t1 * d0[IX(int(i1), int(j1), this->_size)]);
         }
     }
     set_bound(bound, d);

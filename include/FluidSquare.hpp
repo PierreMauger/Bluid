@@ -8,17 +8,14 @@
 #ifndef FLUID_HPP
 #define FLUID_HPP
 
-#define SIZE_BOUND 512
-#define NBR_VALUES SIZE_BOUND * SIZE_BOUND
+#define IX(x, y, size) (x + y * size)
 
-#define IX(x, y) (x + y * SIZE_BOUND)
-
-#include <array>
+#include <vector>
 
 class FluidSquare {
 
     public:
-        FluidSquare(int iteration, float dt, float diffusion, float viscosity);
+        FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity);
         ~FluidSquare() = default;
 
         void step(void);
@@ -26,69 +23,68 @@ class FluidSquare {
         void addVelocity(int x, int y, float amountX, float amountY);
 
     private:
-        // To delete
-        // std::size_t _size;
+        int _size;
         int _iteration;
 
         float _dt;
         float _diff;
         float _visc;
 
-        std::array<float, NBR_VALUES> _s;
-        std::array<float, NBR_VALUES> _density;
+        std::vector<float> _s;
+        std::vector<float> _density;
 
-        std::array<float, NBR_VALUES> _Vx;
-        std::array<float, NBR_VALUES> _Vy;
+        std::vector<float> _Vx;
+        std::vector<float> _Vy;
 
-        std::array<float, NBR_VALUES> _Vx0;
-        std::array<float, NBR_VALUES> _Vy0;
+        std::vector<float> _Vx0;
+        std::vector<float> _Vy0;
 
     private:
 
-        void set_bound(int bound, std::array<float, NBR_VALUES> &bndValues);
+        void set_bound(int bound, std::vector<float> &bndValues);
 
         void diffuse(
             int bound,
-            std::array<float, NBR_VALUES> &bndValues,
-            std::array<float, NBR_VALUES> &bndValues0,
+            std::vector<float> &bndValues,
+            std::vector<float> &bndValues0,
             float diff
         );
 
         void lin_solve(
             int bound,
-            std::array<float, NBR_VALUES> &bndValues,
-            std::array<float, NBR_VALUES> &bndValues0,
+            std::vector<float> &bndValues,
+            std::vector<float> &bndValues0,
             float coef,
             float coef_all
         );
 
         void projectVelocValues(
             int toBrowse,
-            std::array<float, NBR_VALUES> &velocX,
-            std::array<float, NBR_VALUES> &velocY,
-            std::array<float, NBR_VALUES> &p
+            std::vector<float> &velocX,
+            std::vector<float> &velocY,
+            std::vector<float> &p
         );
         void projectVelocBounds(
             int toBrowse,
-            std::array<float, NBR_VALUES> &velocX,
-            std::array<float, NBR_VALUES> &velocY,
-            std::array<float, NBR_VALUES> &p,
-            std::array<float, NBR_VALUES> &div
+            std::vector<float> &velocX,
+            std::vector<float> &velocY,
+            std::vector<float> &p,
+            std::vector<float> &div
         );
         void project(
-            std::array<float, NBR_VALUES> &velocX,
-            std::array<float, NBR_VALUES> &velocY,
-            std::array<float, NBR_VALUES> &p,
-            std::array<float, NBR_VALUES> &div
+            std::vector<float> &velocX,
+            std::vector<float> &velocY,
+            std::vector<float> &p,
+            std::vector<float> &div
         );
 
         float setCoordValue(float coord, float freq, float caseVal);
         void advect(
             int bound,
-            std::array<float, NBR_VALUES> &d,
-            std::array<float, NBR_VALUES> &d0,
-            std::array<float, NBR_VALUES> &velocX,
-            std::array<float, NBR_VALUES> &velocY
+            std::vector<float> &d,
+            std::vector<float> &d0,
+            std::vector<float> &velocX,
+            std::vector<float> &velocY
         );
 
 };
