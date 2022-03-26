@@ -9,23 +9,24 @@ Button::Button(sf::Vector2f pos, std::string name, float scale)
     this->_tempBox.setSize({400, 100});
     this->_tempBox.setFillColor(sf::Color::Red);
     this->_box_slider.setPosition({pos.x + 100, pos.y + 25});
-    this->_pos = {this->_box_slider.getPosition().x, this->_box_slider.getPosition().y, 180, 50};
+    this->_pos = {this->_box_slider.getPosition().x, this->_box_slider.getPosition().y, 200, 50};
     this->_box_slider.setSize({(float)this->_value, 50});
     this->_box_slider.setFillColor(sf::Color::Blue);
-    this->_box_value.setPosition({pos.x + 200, pos.y + 25});
-    this->_box_value.setSize({25, 50});
+    this->_box_value.setPosition({pos.x + 320, pos.y + 25});
+    this->_box_value.setSize({60, 50});
     this->_box_value.setFillColor(sf::Color::Green);
     this->_name.setCharacterSize(20);
     this->_name.setFont(this->_font);
     this->_name.setString(name);
-    std::cout << "Height " << this->_name.getGlobalBounds().height << std::endl;
-    // this->_name.setOrigin({0, this->_name.getGlobalBounds().height});
+    this->_text_value.setCharacterSize(20);
+    this->_text_value.setFont(this->_font);
+    this->_text_value.setString(std::to_string(_value));
+    this->_text_value.setPosition({pos.x, pos.y + 50});
     this->_name.setPosition({pos.x, pos.y + 50});
 }
 
 void Button::draw(sf::RenderWindow &window)
 {
-    window.draw(this->_tempBox);
     window.draw(this->_box_slider);
     window.draw(this->_box_value);
     window.draw(this->_name);

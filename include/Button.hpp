@@ -13,6 +13,7 @@
 class Button {
     private:
         sf::Text _name;
+        sf::Text _text_value;
         sf::Font _font;
         sf::RectangleShape _box_slider;
         sf::RectangleShape _box_value;
