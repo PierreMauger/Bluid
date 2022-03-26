@@ -34,7 +34,7 @@ private:
 
 public:
     BluidEngine(void);
-    ~BluidEngine() = default;
+    ~BluidEngine();
     bool isOpen(void);
     void update(void);
     void eventHandler(void);

@@ -19,6 +19,12 @@ BluidEngine::BluidEngine(void)
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "palu", {-1, 1}));
 }
 
+BluidEngine::~BluidEngine(void)
+{
+    for (Button *button : this->_buttonList)
+        delete button;
+}
+
 void BluidEngine::eventHandler(void)
 {
     while (this->_window.pollEvent(this->_event)) {
