@@ -39,10 +39,13 @@ void BluidEngine::eventHandler(void)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         this->_lastPos = this->_actPos;
         this->_actPos = sf::Mouse::getPosition(this->_window);
-        if (this->_lastPos.x != this->_actPos.x && this->_lastPos.y != this->_actPos.y)
+        // std::cout << this->_actPos.x << " " << this->_actPos.y << std::endl;
+        // if (this->_lastPos.x != this->_actPos.x && this->_lastPos.y != this->_actPos.y) {
             this->_fluid.mouseDragged(_actPos, _lastPos);
-        for (Button *button : this->_buttonList)
+        // }
+        for (Button *button : this->_buttonList) {
             button->setValue(this->_actPos);
+        }
     }
     _fluid.step();
 }

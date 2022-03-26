@@ -20,7 +20,7 @@ NAME			=	Bluid
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS			=	-I include -Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS			=	-I include -Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system -Ofast
 
 CXXFLAGS_DEBUG		=	-g
 

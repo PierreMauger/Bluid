@@ -213,9 +213,9 @@ void FluidSquare::advect(
 
 void FluidSquare::mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos)
 {
-    _density[IX(actPos.x, actPos.y, this->_size)] += 100;
-    _Vx[IX(actPos.x, actPos.y, this->_size)] += actPos.x - lastPos.x;
-    _Vy[IX(actPos.x, actPos.y, this->_size)] += actPos.y - lastPos.y;
+    _density[IX(actPos.x, actPos.y, this->_size)] += 200;
+    _Vx[IX(actPos.x, actPos.y, this->_size)] += (actPos.x - lastPos.x);
+    _Vy[IX(actPos.x, actPos.y, this->_size)] += (actPos.y - lastPos.y);
 }
 
 float FluidSquare::getDensity(int i, int j)
