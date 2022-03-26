@@ -7,7 +7,8 @@
 ##
 
 ##################### SRC #######################
-SRC				=	src/Bluid.cpp
+SRC				=	src/Bluid.cpp		\
+					src/Button.cpp		\
 
 SRC				+=	src/main.cpp
 

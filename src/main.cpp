@@ -6,10 +6,12 @@
 */
 
 #include "Bluid.hpp"
+#include "Button.hpp"
 
 int main(void)
 {
     BluidEngine engine;
+    Button button1({500, 500}, "mmmm");
     sf::CircleShape shape(15);
     shape.setOrigin({15, 15});
     while (engine.isOpen()) {
@@ -18,6 +20,7 @@ int main(void)
 
         engine.getWindow().clear(sf::Color::Black);
         engine.getWindow().draw(shape);
+        button1.draw(engine.getWindow());
         engine.getWindow().display();
     }
     return 0;
