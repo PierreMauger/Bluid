@@ -14,9 +14,9 @@ BluidEngine::BluidEngine(void)
     this->_window.setFramerateLimit(60);
     this->_lastPos = {0, 0};
     this->_actPos = {0, 0};
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "ratio", {3, 4}));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 100}, "L", {0, 200}));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "palu", {-1, 1}));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "ratio", {3, 4}, 3.2));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 100}, "L", {0, 200}, 50.0));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "palu", {-1, 1}, 0.8));
 }
 
 BluidEngine::~BluidEngine(void)
