@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 
+class Button;
 
 typedef struct pixel_s
 {
@@ -36,6 +37,7 @@ public:
     bool isOpen(void);
     void update(void);
     bool eventHandler(void);
+    void draw(Button Button);
     sf::RenderWindow &getWindow();
     sf::Vector2i getActPos();
     sf::Vector2i getLastPos();

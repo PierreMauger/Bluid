@@ -14,13 +14,15 @@ class Button {
     private:
         sf::Text _name;
         sf::Font _font;
-        sf::RectangleShape _box;
+        sf::RectangleShape _box_slider;
+        sf::RectangleShape _box_value;
         sf::RectangleShape _tempBox;
         sf::FloatRect _pos;
-        int _value;
+        float _value;
+        float _scale;
 
     public:
-        Button(sf::Vector2f pos, std::string name);
+        Button(sf::Vector2f pos, std::string name, float scale);
         ~Button() = default;
         void draw(sf::RenderWindow &window);
         void setValue(sf::Vector2i mousePos);

@@ -6,6 +6,7 @@
 */
 
 #include "Bluid.hpp"
+#include "Button.hpp"
 
 BluidEngine::BluidEngine(void)
 {
@@ -51,4 +52,11 @@ sf::Vector2i BluidEngine::getActPos()
 sf::Vector2i BluidEngine::getLastPos()
 {
     return this->_lastPos;
+}
+
+void BluidEngine::draw(Button button1)
+{
+    getWindow().clear(sf::Color::Black);
+    button1.draw(getWindow());
+    getWindow().display();
 }
