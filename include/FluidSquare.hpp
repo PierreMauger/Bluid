@@ -10,6 +10,7 @@
 
 #define IX(x, y, size) (x + y * size)
 
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 class FluidSquare {
@@ -19,8 +20,8 @@ class FluidSquare {
         ~FluidSquare() = default;
 
         void step(void);
-        void addDensity(int x, int y, float amount);
-        void addVelocity(int x, int y, float amountX, float amountY);
+        void mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos);
+        float getDensity(int i, int j);
 
     private:
         int _size;
@@ -86,7 +87,6 @@ class FluidSquare {
             std::vector<float> &velocX,
             std::vector<float> &velocY
         );
-
 };
 
 #endif // FLUID_HPP

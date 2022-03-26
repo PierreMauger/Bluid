@@ -38,19 +38,6 @@ void FluidSquare::step(void)
     this->advect(0, this->_density, this->_s, this->_Vx, this->_Vy);
 }
 
-void FluidSquare::addDensity(int x, int y, float amount)
-{
-    this->_density[IX(x, y, this->_size)] += amount;
-}
-
-void FluidSquare::addVelocity(int x, int y, float amountX, float amountY)
-{
-    std::size_t index = IX(x, y, this->_size);
-
-    this->_Vx[index] += amountX;
-    this->_Vy[index] += amountY;
-}
-
 void FluidSquare::set_bound(int bound, std::vector<float> &bndValues)
 {
     int toBrowse = this->_size - 1;
@@ -222,4 +209,16 @@ void FluidSquare::advect(
         }
     }
     set_bound(bound, d);
+}
+
+void FluidSquare::mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos)
+{
+    _density[IX(actPos.x, actPos.y, this->_size)] += 100;
+    _Vx[IX(actPos.x, actPos.y, this->_size)] += actPos.x - lastPos.x;
+    _Vy[IX(actPos.x, actPos.y, this->_size)] += actPos.y - lastPos.y;
+}
+
+float FluidSquare::getDensity(int i, int j)
+{
+    return _density[IX(i, j, this->_size)];
 }

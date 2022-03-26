@@ -8,15 +8,16 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(void)
+BluidEngine::BluidEngine(void) : _fluid(512, 14, 0.2, 0, 0.0000001)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
     this->_lastPos = {0, 0};
     this->_actPos = {0, 0};
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "ratio", {3, 4}, 3.2));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 100}, "L", {0, 200}, 50.0));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "palu", {-1, 1}, 0.8));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {3, 4}, 3.2));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 100}, "viscosity", {0, 200}, 50.0));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "timestep", {-1, 1}, 0.8));
+    this->_buf.create(262144);
 }
 
 BluidEngine::~BluidEngine(void)
@@ -34,17 +35,15 @@ void BluidEngine::eventHandler(void)
             if (this->_event.key.code == sf::Keyboard::Escape)
                 this->_window.close();
     }
-
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         this->_lastPos = this->_actPos;
         this->_actPos = sf::Mouse::getPosition(this->_window);
-        if (this->_lastPos.x != this->_actPos.x && this->_lastPos.y != this->_actPos.y) {
-            std::cout << "last: " << this->_lastPos.x << " " << this->_lastPos.y << std::endl;
-            std::cout << "act: " << this->_actPos.x << " " << this->_actPos.y << std::endl;
-        }
+        if (this->_lastPos.x != this->_actPos.x && this->_lastPos.y != this->_actPos.y)
+            this->_fluid.mouseDragged(_actPos, _lastPos);
         for (Button *button : this->_buttonList)
             button->setValue(this->_actPos);
     }
+    //_fluid.step();
 }
 
 bool BluidEngine::isOpen()
@@ -72,5 +71,12 @@ void BluidEngine::draw(void)
     this->_window.clear(sf::Color::Black);
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
+    for (int i = 0; i < 512; i++) {
+        for (int j = 0, tmp; j < 512; j++) {
+            _vertices[IX(i, j, 512)].position = {i, j};
+            _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(20 + _fluid.getDensity(i, j))};
+        }
+    }
+    this->_buf.update(this->_vertices);
     this->_window.display();
 }

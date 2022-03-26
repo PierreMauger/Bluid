@@ -14,13 +14,10 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <string>
+#include <array>
 
 #include "Button.hpp"
-
-typedef struct pixel_s
-{
-
-} pixel_t;
+#include "FluidSquare.hpp"
 
 class BluidEngine
 {
@@ -29,9 +26,10 @@ private:
     sf::Event _event;
     sf::Vector2i _actPos;
     sf::Vector2i _lastPos;
-    pixel_t **_map; // temp, waiting for pixelstruct
     std::vector<Button *> _buttonList;
-
+    sf::Vertex _vertices[262144];
+    sf::VertexBuffer _buf;
+    FluidSquare _fluid;
 public:
     BluidEngine(void);
     ~BluidEngine();
@@ -42,6 +40,7 @@ public:
     sf::RenderWindow &getWindow(void);
     sf::Vector2i getActPos(void);
     sf::Vector2i getLastPos(void);
+    
 };
 
 #endif // BLUID_HPP
