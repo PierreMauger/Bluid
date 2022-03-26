@@ -35,7 +35,7 @@ public:
     ~BluidEngine() = default;
     bool isOpen(void);
     void update(void);
-    void eventHandler(void);
+    bool eventHandler(void);
     sf::RenderWindow &getWindow();
     sf::Vector2i getActPos();
     sf::Vector2i getLastPos();

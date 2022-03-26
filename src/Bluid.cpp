@@ -15,7 +15,7 @@ BluidEngine::BluidEngine(void)
     this->_actPos = {0, 0};
 }
 
-void BluidEngine::eventHandler(void)
+bool BluidEngine::eventHandler(void)
 {
     while (this->_window.pollEvent(this->_event))
         if (this->_event.type == sf::Event::Closed)
@@ -28,7 +28,9 @@ void BluidEngine::eventHandler(void)
             std::cout << "last: " << this->_lastPos.x << " " << this->_lastPos.y << std::endl;
             std::cout << "act: " << this->_actPos.x << " " << this->_actPos.y << std::endl;
         }
+        return (true);
     }
+    return (false);
 }
 
 bool BluidEngine::isOpen()

@@ -8,6 +8,7 @@ Button::Button(sf::Vector2f pos, std::string name)
     this->_tempBox.setSize({300, 100});
     this->_tempBox.setFillColor(sf::Color::Red);
     this->_box.setPosition({pos.x + 100, pos.y + 25});
+    this->_pos = {this->_box.getPosition().x, this->_box.getPosition().y, 180, 50};
     this->_box.setSize({(float)this->_value, 50});
     this->_box.setFillColor(sf::Color::Blue);
     this->_name.setCharacterSize(20);
@@ -16,11 +17,6 @@ Button::Button(sf::Vector2f pos, std::string name)
     std::cout << "Height " << this->_name.getGlobalBounds().height << std::endl;
     // this->_name.setOrigin({0, this->_name.getGlobalBounds().height});
     this->_name.setPosition({pos.x, pos.y + 50});
-}
-
-Button::~Button()
-{
-
 }
 
 void Button::draw(sf::RenderWindow &window)
@@ -32,5 +28,8 @@ void Button::draw(sf::RenderWindow &window)
 
 void Button::setValue(sf::Vector2i mousePos)
 {
-
+    if (this->_pos.contains({(float)mousePos.x, (float)mousePos.y})) {
+        this->_value = mousePos.x - this->_pos.left;
+        this->_box.setSize({(float)this->_value, 50});
+    }
 }

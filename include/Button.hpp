@@ -16,11 +16,12 @@ class Button {
         sf::Font _font;
         sf::RectangleShape _box;
         sf::RectangleShape _tempBox;
+        sf::FloatRect _pos;
         int _value;
 
     public:
         Button(sf::Vector2f pos, std::string name);
-        ~Button();
+        ~Button() = default;
         void draw(sf::RenderWindow &window);
         void setValue(sf::Vector2i mousePos);
 };
