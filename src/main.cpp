@@ -11,7 +11,7 @@
 int main(void)
 {
     BluidEngine engine;
-    Button button1({500, 500}, "ratio", 100);
+    Button button1({500, 500}, "ratio", {3, 4});
     while (engine.isOpen()) {
         if (engine.eventHandler())
             button1.setValue(engine.getActPos());

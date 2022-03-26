@@ -20,13 +20,14 @@ class Button {
         sf::RectangleShape _tempBox;
         sf::FloatRect _pos;
         float _value;
-        float _scale;
+        sf::Vector2f _scale;
 
     public:
-        Button(sf::Vector2f pos, std::string name, float scale);
+        Button(sf::Vector2f pos, std::string name, sf::Vector2f scale);
         ~Button() = default;
         void draw(sf::RenderWindow &window);
         void setValue(sf::Vector2i mousePos);
+        float getValue(void);
 };
 
 #endif // BUTTON_HPP
