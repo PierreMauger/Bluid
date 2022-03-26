@@ -8,12 +8,12 @@
 #include "FluidSquare.hpp"
 
 FluidSquare::FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity) :
-_s(size, 0),
-_density(size, 0),
-_Vx(size, 0),
-_Vy(size, 0),
-_Vx0(size, 0),
-_Vy0(size, 0)
+_s(size * size, 0),
+_density(size * size, 0),
+_Vx(size * size, 0),
+_Vy(size * size, 0),
+_Vx0(size * size, 0),
+_Vy0(size * size, 0)
 {
     this->_size = size;
     this->_iteration = iteration;

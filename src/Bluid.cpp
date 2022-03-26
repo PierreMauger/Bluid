@@ -8,7 +8,7 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(void) : _fluid(512, 14, 0.2, 0, 0.0000001)
+BluidEngine::BluidEngine(void) : _fluid(512, 2, 0.2, 0, 0.0000001)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
@@ -43,7 +43,7 @@ void BluidEngine::eventHandler(void)
         for (Button *button : this->_buttonList)
             button->setValue(this->_actPos);
     }
-    //_fluid.step();
+    _fluid.step();
 }
 
 bool BluidEngine::isOpen()
@@ -72,8 +72,8 @@ void BluidEngine::draw(void)
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
     for (int i = 0; i < 512; i++) {
-        for (int j = 0, tmp; j < 512; j++) {
-            _vertices[IX(i, j, 512)].position = {i, j};
+        for (int j = 0; j < 512; j++) {
+            _vertices[IX(i, j, 512)].position = {(float)i, (float)j};
             _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(20 + _fluid.getDensity(i, j))};
         }
     }
