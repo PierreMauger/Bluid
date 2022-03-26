@@ -8,7 +8,7 @@
 #ifndef FLUID_HPP
 #define FLUID_HPP
 
-#define IX(x, y, size) (x + y * size)
+#define IX(x, y, size) ((x) + ((y) * (size)))
 
 #include <SFML/Graphics.hpp>
 #include <vector>

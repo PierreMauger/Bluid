@@ -187,14 +187,14 @@ void FluidSquare::advect(
     float ifloat = 1;
     float jfloat = 1;
 
-    for (int j = 1; j < this->_size - 1; j++, jfloat++) {
-        for (int i = 1; i < this->_size - 1; i++, ifloat++) {
+    for (int j = 1; j < this->_size - 2; j++, jfloat++) {
+        for (int i = 1; i < this->_size - 2; i++, ifloat++) {
             x = setCoordValue(ifloat, dtx, velocX[IX(i, j, this->_size)]);
             y = setCoordValue(jfloat, dty, velocY[IX(i, j, this->_size)]);
 
-            i0 = int(x);
+            i0 = (int)x;
             i1 = i0 + 1.0f;
-            j0 = int(y);
+            j0 = (int)y;
             j1 = j0 + 1.0f;
             s1 = x - i0;
             s0 = 1.0f - s1;
@@ -202,10 +202,10 @@ void FluidSquare::advect(
             t0 = 1.0f - t1;
 
             d[IX(i, j, this->_size)] =
-                s0 * (t0 * d0[IX(int(i0), int(j0), this->_size)] +
-                t1 * d0[IX(int(i0), int(j1), this->_size)]) +
-                s1 * (t0 * d0[IX(int(i1), int(j0), this->_size)] +
-                t1 * d0[IX(int(i1), int(j1), this->_size)]);
+                s0 * (t0 * d0[IX((int)i0, (int)j0, this->_size)] +
+                t1 * d0[IX((int)i0, (int)j1, this->_size)]) +
+                s1 * (t0 * d0[IX((int)i1, (int)j0, this->_size)] +
+                t1 * d0[IX((int)i1, (int)j1, this->_size)]);
         }
     }
     set_bound(bound, d);
@@ -220,6 +220,5 @@ void FluidSquare::mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos)
 
 float FluidSquare::getDensity(int i, int j)
 {
-    std::cout << _density[IX(i, j, this->_size)] << std::endl;
     return _density[IX(i, j, this->_size)];
 }
