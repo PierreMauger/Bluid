@@ -20,6 +20,14 @@ _Vy0(size * size, 0)
     this->_dt = dt;
     this->_diff = diffusion;
     this->_visc = viscosity;
+
+    for (int i = 255; i < this->_size - 1; i++) {
+        for (int j = 255; j < this->_size - 1; j++) {
+            _density[IX(i, j, this->_size)] += 200;
+            _Vx[IX(i, j, this->_size)] += 200;
+            _Vy[IX(i, j, this->_size)] += 200;
+        }
+    }
 }
 
 void FluidSquare::step(void)
@@ -153,7 +161,7 @@ void FluidSquare::project(
 
 float FluidSquare::setCoordValue(float coord, float freq, float caseVal)
 {
-    float res = coord - freq * caseVal;
+    float res = coord - (freq * caseVal);
 
     if (res < 0.5f) {
         res = 0.5f;
@@ -162,6 +170,16 @@ float FluidSquare::setCoordValue(float coord, float freq, float caseVal)
         res = this->_size + 0.5f;
     }
     return res;
+}
+
+float FluidSquare::filterVal(float val)
+{
+    if (val > this->_size - 2) {
+        return (float)(this->_size - 2);
+    } else if (val < 0) {
+        return 0;
+    }
+    return val;
 }
 
 void FluidSquare::advect(
@@ -187,25 +205,25 @@ void FluidSquare::advect(
     float ifloat = 1;
     float jfloat = 1;
 
-    for (int j = 1; j < this->_size - 2; j++, jfloat++) {
-        for (int i = 1; i < this->_size - 2; i++, ifloat++) {
+    for (int j = 1; j < this->_size - 1; j++, jfloat++) {
+        for (int i = 1; i < this->_size - 1; i++, ifloat++) {
             x = setCoordValue(ifloat, dtx, velocX[IX(i, j, this->_size)]);
             y = setCoordValue(jfloat, dty, velocY[IX(i, j, this->_size)]);
 
-            i0 = (int)x;
-            i1 = i0 + 1.0f;
-            j0 = (int)y;
-            j1 = j0 + 1.0f;
-            s1 = x - i0;
-            s0 = 1.0f - s1;
-            t1 = y - j0;
-            t0 = 1.0f - t1;
+            i0 = this->filterVal((int)x);
+            i1 = this->filterVal(i0 + 1.0f);
+            j0 = this->filterVal((int)y);
+            j1 = this->filterVal(j0 + 1.0f);
+            s1 = this->filterVal(x - i0);
+            s0 = this->filterVal(1.0f - s1);
+            t1 = this->filterVal(y - j0);
+            t0 = this->filterVal(1.0f - t1);
 
             d[IX(i, j, this->_size)] =
                 s0 * (t0 * d0[IX((int)i0, (int)j0, this->_size)] +
-                t1 * d0[IX((int)i0, (int)j1, this->_size)]) +
+                      t1 * d0[IX((int)i0, (int)j1, this->_size)]) +
                 s1 * (t0 * d0[IX((int)i1, (int)j0, this->_size)] +
-                t1 * d0[IX((int)i1, (int)j1, this->_size)]);
+                      t1 * d0[IX((int)i1, (int)j1, this->_size)]);
         }
     }
     set_bound(bound, d);

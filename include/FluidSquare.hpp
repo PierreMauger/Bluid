@@ -81,6 +81,7 @@ class FluidSquare {
         );
 
         float setCoordValue(float coord, float freq, float caseVal);
+        float filterVal(float val);
         void advect(
             int bound,
             std::vector<float> &d,
