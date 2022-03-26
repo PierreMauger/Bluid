@@ -18,7 +18,7 @@
 class FluidSquare {
 
     public:
-        FluidSquare(std::size_t iteration, float dt, float diffusion, float viscosity);
+        FluidSquare(int iteration, float dt, float diffusion, float viscosity);
         ~FluidSquare() = default;
 
         void step(void);
@@ -28,7 +28,7 @@ class FluidSquare {
     private:
         // To delete
         // std::size_t _size;
-        std::size_t _iteration;
+        int _iteration;
 
         float _dt;
         float _diff;
@@ -62,11 +62,33 @@ class FluidSquare {
             float coef_all
         );
 
+        void projectVelocValues(
+            int toBrowse,
+            std::array<float, NBR_VALUES> &velocX,
+            std::array<float, NBR_VALUES> &velocY,
+            std::array<float, NBR_VALUES> &p
+        );
+        void projectVelocBounds(
+            int toBrowse,
+            std::array<float, NBR_VALUES> &velocX,
+            std::array<float, NBR_VALUES> &velocY,
+            std::array<float, NBR_VALUES> &p,
+            std::array<float, NBR_VALUES> &div
+        );
         void project(
             std::array<float, NBR_VALUES> &velocX,
             std::array<float, NBR_VALUES> &velocY,
             std::array<float, NBR_VALUES> &p,
             std::array<float, NBR_VALUES> &div
+        );
+
+        float setCoordValue(float coord, float freq, float caseVal);
+        void advect(
+            int bound,
+            std::array<float, NBR_VALUES> &d,
+            std::array<float, NBR_VALUES> &d0,
+            std::array<float, NBR_VALUES> &velocX,
+            std::array<float, NBR_VALUES> &velocY
         );
 
 };
