@@ -6,6 +6,11 @@ std::string to_string_float(float value, int accuracy = 6)
 
     out.precision(accuracy);
     out << std::fixed << value;
+    if (std::atof(out.str().c_str()) == 0.00 && std::atof(out.str().c_str()) == -0.00) {
+        std::stringstream buffer;
+        buffer << std::setprecision(0) << std::scientific << value;
+        return buffer.str();
+    }
     return out.str();
 }
 
@@ -47,7 +52,7 @@ Button::Button(sf::Vector2f pos, std::string name, sf::Vector2f scale, float val
     this->_name.setFont(this->_font);
     this->_name.setString(name);
     this->_name.setOrigin({0, this->_name.getGlobalBounds().height + this->_name.getGlobalBounds().top});
-    this->_name.setPosition({pos.x + 20, pos.y + 60});
+    this->_name.setPosition({pos.x, pos.y + 60});
 }
 
 void Button::draw(sf::RenderWindow &window)
