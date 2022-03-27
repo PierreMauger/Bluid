@@ -54,7 +54,7 @@ void set_bnd(int b, float *x)
 void lin_solve(int b, float *x, float *x0, float a, float c)
 {
     float cRecip = 1.0 / c;
-    
+
     for (int k = 0; k < iter; k++) {
         for (int j = 1; j < N - 1; j++) {
             for (int i = 1; i < N - 1; i++) {
@@ -71,6 +71,7 @@ void lin_solve(int b, float *x, float *x0, float a, float c)
 void diffuse(int b, float *x, float *x0, float diff, float dt)
 {
     float a = dt * diff * (N - 2) * (N - 2);
+
     lin_solve(b, x, x0, a, 1 + 4 * a);
 }
 
@@ -87,7 +88,7 @@ void project(float *velocX, float *velocY, float *p, float *div)
         p[IX(i, j)] = 0;
         }
     }
-    set_bnd(0, div); 
+    set_bnd(0, div);
     set_bnd(0, p);
     lin_solve(0, p, div, 1, 4);
     for (int j = 1; j < N - 1; j++) {
@@ -113,7 +114,7 @@ void advect(int b, float *d, float *d0, float *velocX, float *velocY, float dt)
     float ifloat, jfloat;
     int i, j;
 
-    for (j = 1, jfloat = 1; j < N - 1; j++, jfloat++) { 
+    for (j = 1, jfloat = 1; j < N - 1; j++, jfloat++) {
         for (i = 1, ifloat = 1; i < N - 1; i++, ifloat++) {
             tmp1 = dtx * velocX[IX(i, j)];
             tmp2 = dty * velocY[IX(i, j)];
@@ -126,14 +127,14 @@ void advect(int b, float *d, float *d0, float *velocX, float *velocY, float dt)
             i0 = floor(x);
             i1 = i0 + 1.0f;
             if (y < 0.5f)
-                y = 0.5f; 
+                y = 0.5f;
             if (y > Nfloat + 0.5f)
                 y = Nfloat + 0.5f;
             j0 = floor(y);
             j1 = j0 + 1.0f;
-            s1 = x - i0; 
-            s0 = 1.0f - s1; 
-            t1 = y - j0; 
+            s1 = x - i0;
+            s0 = 1.0f - s1;
+            t1 = y - j0;
             t0 = 1.0f - t1;
             int i0i = int(i0);
             int i1i = int(i1);

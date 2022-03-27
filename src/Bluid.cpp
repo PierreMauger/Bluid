@@ -8,7 +8,7 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(void) : _fluid(512, 8, 0.2, 0, 0.0000001)
+BluidEngine::BluidEngine(void) : _fluid(512, 8, 0.2f, 0.0000001f, 0.0000001f)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
@@ -39,10 +39,9 @@ void BluidEngine::eventHandler(void)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         this->_lastPos = this->_actPos;
         this->_actPos = sf::Mouse::getPosition(this->_window);
-        // std::cout << this->_actPos.x << " " << this->_actPos.y << std::endl;
-        // if (this->_lastPos.x != this->_actPos.x && this->_lastPos.y != this->_actPos.y) {
+        if (this->_actPos.x < 512 && this->_actPos.y < 512) {
             this->_fluid.mouseDragged(_actPos, _lastPos);
-        // }
+        }
         for (Button *button : this->_buttonList) {
             button->setValue(this->_actPos);
         }
@@ -72,13 +71,16 @@ sf::Vector2i BluidEngine::getLastPos(void)
 
 void BluidEngine::draw(void)
 {
+    int color = 0;
+
     this->_window.clear(sf::Color::Black);
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
-    for (int i = 0; i < 512; i++) {
-        for (int j = 0; j < 512; j++) {
+    for (int j = 0; j < 512; j++) {
+        for (int i = 0; i < 512; i++) {
             _vertices[IX(i, j, 512)].position = {(float)i, (float)j};
-            _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(40 + _fluid.getDensity(i, j))};
+            color = 40 + (this->_fluid.getDensity(i, j) * 2000);
+            _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(color > 255 ? 255 : color)};
         }
     }
     this->_buf.update(this->_vertices);
