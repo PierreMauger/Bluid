@@ -23,6 +23,10 @@ class FluidSquare {
         void step(void);
         void mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos);
         float getDensity(int i, int j);
+        void setDiffusion(int diff);
+        void setDt(int dt);
+        void setVisc(int visc);
+        void setInteration(int it);
 
     private:
         int _size;
