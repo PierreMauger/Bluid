@@ -39,11 +39,12 @@ void BluidEngine::eventHandler(void)
             if (this->_event.key.code == sf::Keyboard::Escape)
                 this->_window.close();
             if (this->_event.key.code == sf::Keyboard::R) {
-                this->_fluid.setDiffusion(0.0000005f);
+                this->_fluid.setDiffusion(0.0000009f);
+                this->_fluid.setVisc(0.0000003f);
                 this->_fluid.setDt(0.2);
                 this->_fluid.setInteration(8);
-                this->_buttonList[0]->setValue(0.0000001f);
-                this->_buttonList[1]->setValue(0.0000005f);
+                this->_buttonList[0]->setValue(0.0000009f);
+                this->_buttonList[1]->setValue(0.0000003f);
                 this->_buttonList[2]->setValue(0.2);
                 this->_buttonList[3]->setValue(8);
             }
@@ -113,5 +114,7 @@ void BluidEngine::draw(void)
         button->draw(this->_window);
     this->_buf.update(&this->_vertices[0]);
     this->_window.draw(this->_buf);
+    for (Button *button : this->_buttonList)
+        button->draw(this->_window);
     this->_window.display();
 }
