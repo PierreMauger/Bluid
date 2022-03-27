@@ -29,7 +29,9 @@ class Button {
         ~Button() = default;
         void draw(sf::RenderWindow &window);
         void setValue(sf::Vector2i mousePos);
+        void setValue(float value);
         float getValue(void);
+        sf::FloatRect getPos(void);
 };
 
 #endif // BUTTON_HPP
