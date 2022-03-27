@@ -31,8 +31,9 @@ private:
     sf::VertexBuffer _buf;
     FluidSquare _fluid;
     std::size_t _size;
+    std::size_t _scale;
 public:
-    BluidEngine(std::size_t size);
+    BluidEngine(std::size_t size, std::size_t scale);
     ~BluidEngine();
     bool isOpen(void);
     void update(void);
