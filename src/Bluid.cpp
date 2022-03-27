@@ -8,7 +8,7 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(std::size_t size) : _fluid(size, 8, 0.2f, 0.0000001f, 0.0000001f)
+BluidEngine::BluidEngine(std::size_t size) : _vertices(size * size * 2) ,_fluid(size, 8, 0.2f, 0.0001f, 0.0000001f)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
@@ -78,14 +78,19 @@ void BluidEngine::draw(void)
     this->_window.clear(sf::Color::Black);
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
-    for (int j = 0; j < 512; j++) {
-        for (int i = 0; i < 512; i++) {
-            _vertices[IX(i, j, 512)].position = {(float)i, (float)j};
+    for (int j = 0; j < (int)this->_size; j++) {
+        for (int i = 0; i < (int)this->_size; i++) {
             color = 40 + (this->_fluid.getDensity(i, j) * 2000);
-            _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(color > 255 ? 255 : color)};
+            for (int y = 0; y < 2; y++) {
+                for (int x = 0; x < 2; x++) {
+                    _vertices[IX(i * 2 + x, j * 2 + y, this->_size * 2)].position = {(float)i * 2 + x, (float)j * 2 + y};
+
+                    _vertices[IX(i * 2, j * 2, this->_size * 2)].color = {0, 0, (sf::Uint8)(color > 255 ? 255 : color)};
+                }
+            }
         }
     }
-    this->_buf.update(this->_vertices);
+    this->_buf.update(&this->_vertices[0]);
     this->_window.draw(this->_buf);
     this->_window.display();
 }

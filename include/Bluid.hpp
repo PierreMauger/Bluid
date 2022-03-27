@@ -27,10 +27,10 @@ private:
     sf::Vector2i _actPos;
     sf::Vector2i _lastPos;
     std::vector<Button *> _buttonList;
-    sf::Vertex _vertices[262144];
+    std::vector<sf::Vertex> _vertices;
     sf::VertexBuffer _buf;
     FluidSquare _fluid;
-    std::size_t _size; 
+    std::size_t _size;
 public:
     BluidEngine(std::size_t size);
     ~BluidEngine();
@@ -41,7 +41,7 @@ public:
     sf::RenderWindow &getWindow(void);
     sf::Vector2i getActPos(void);
     sf::Vector2i getLastPos(void);
-    
+
 };
 
 #endif // BLUID_HPP

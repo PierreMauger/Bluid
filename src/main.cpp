@@ -10,7 +10,7 @@
 
 int main(void)
 {
-    BluidEngine engine(512);
+    BluidEngine engine(1024);
 
     while (engine.isOpen()) {
         engine.eventHandler();
