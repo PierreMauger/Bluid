@@ -80,16 +80,14 @@ class FluidSquare {
             std::vector<float> &div
         );
 
-        float setCoordValue(float coord, float freq, float caseVal, float Nfloat);
+        float setCoordValue(float coord, float freq, float caseVal);
         float filterVal(float val);
         void advect(
-            int N,
             int b,
             std::vector<float> &d,
             std::vector<float> &d0,
             std::vector<float> &velocX,
-            std::vector<float> &velocY,
-            float dt
+            std::vector<float> &velocY
         );
 };
 
