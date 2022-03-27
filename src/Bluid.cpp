@@ -8,7 +8,7 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size * size * scale * scale) ,_fluid(size, 8, 0.2f, 0.0000001f, 0.0000001f, 0.99)
+BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size * size * scale * scale) ,_fluid(size, 4, 0.2f, 0.0000001f, 0.0000001f, 0.99)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
@@ -19,8 +19,8 @@ BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size *
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000090f}, 0.0000001f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000000f, 0.0000100f}, 0.0000005f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 280}, "fade", {0, 1}, 0.99));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {0, 1}, 0.2));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 8));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {0.01, 1}, 0.2));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 4));
     this->_buf.create(size * size * scale * scale);
 }
 
@@ -44,12 +44,12 @@ void BluidEngine::eventHandler(void)
                 this->_fluid.setVisc(0.0000003f);
                 this->_fluid.setFade(0.99);
                 this->_fluid.setDt(0.2);
-                this->_fluid.setInteration(8);
+                this->_fluid.setInteration(4);
                 this->_buttonList[0]->setValue(0.0000009f);
                 this->_buttonList[1]->setValue(0.0000003f);
                 this->_buttonList[2]->setValue(0.99);
                 this->_buttonList[3]->setValue(0.2);
-                this->_buttonList[4]->setValue(8);
+                this->_buttonList[4]->setValue(4);
             }
         }
     }
