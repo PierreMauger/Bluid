@@ -17,13 +17,14 @@
 class FluidSquare {
 
     public:
-        FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity);
+        FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity, float fade);
         ~FluidSquare() = default;
 
         void step(void);
         void mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos);
         float getDensity(int i, int j);
         void setDiffusion(float diff);
+        void setFade(float fade);
         void setDt(float dt);
         void setVisc(float visc);
         void setInteration(int it);
@@ -35,6 +36,7 @@ class FluidSquare {
         float _dt;
         float _diff;
         float _visc;
+        float _fade;
 
         std::vector<float> _s;
         std::vector<float> _density;

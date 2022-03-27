@@ -8,7 +8,7 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size * size * scale * scale) ,_fluid(size, 8, 0.2f, 0.0001f, 0.0000001f)
+BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size * size * scale * scale) ,_fluid(size, 8, 0.2f, 0.0000001f, 0.0000001f, 0.99)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
@@ -18,6 +18,7 @@ BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size *
     this->_scale = scale;
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000090f}, 0.0000001f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000000f, 0.0000100f}, 0.0000005f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 280}, "fade", {0, 1}, 0.99));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {0, 1}, 0.2));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 8));
     this->_buf.create(size * size * scale * scale);
@@ -41,12 +42,14 @@ void BluidEngine::eventHandler(void)
             if (this->_event.key.code == sf::Keyboard::R) {
                 this->_fluid.setDiffusion(0.0000009f);
                 this->_fluid.setVisc(0.0000003f);
+                this->_fluid.setFade(0.99);
                 this->_fluid.setDt(0.2);
                 this->_fluid.setInteration(8);
                 this->_buttonList[0]->setValue(0.0000009f);
                 this->_buttonList[1]->setValue(0.0000003f);
-                this->_buttonList[2]->setValue(0.2);
-                this->_buttonList[3]->setValue(8);
+                this->_buttonList[2]->setValue(0.99);
+                this->_buttonList[3]->setValue(0.2);
+                this->_buttonList[4]->setValue(8);
             }
         }
     }
@@ -67,9 +70,11 @@ void BluidEngine::eventHandler(void)
         if (this->_buttonList[1]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
             this->_fluid.setVisc(this->_buttonList[1]->getValue());
         if (this->_buttonList[2]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
-            this->_fluid.setDt(this->_buttonList[2]->getValue());
+            this->_fluid.setFade(this->_buttonList[2]->getValue());
         if (this->_buttonList[3]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
-            this->_fluid.setInteration(this->_buttonList[3]->getValue());
+            this->_fluid.setDt(this->_buttonList[3]->getValue());
+        if (this->_buttonList[4]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
+            this->_fluid.setInteration(this->_buttonList[4]->getValue());
     }
     _fluid.step();
 }

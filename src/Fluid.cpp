@@ -7,7 +7,7 @@
 
 #include "FluidSquare.hpp"
 
-FluidSquare::FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity) :
+FluidSquare::FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity, float fade) :
 _s(size * size + size + 1, 0),
 _density(size * size + size + 1, 0),
 _Vx(size * size + size + 1, 0),
@@ -20,6 +20,7 @@ _Vy0(size * size + size + 1, 0)
     this->_dt = dt;
     this->_diff = diffusion;
     this->_visc = viscosity;
+    this->_fade = fade;
 }
 
 void FluidSquare::step(void)
@@ -235,7 +236,7 @@ void FluidSquare::mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos)
 
 float FluidSquare::getDensity(int i, int j)
 {
-    _density[IX(i, j, this->_size)] *= 0.99;
+    _density[IX(i, j, this->_size)] *= this->_fade;
 
     return _density[IX(i, j, this->_size)];
 }
@@ -258,4 +259,9 @@ void FluidSquare::setVisc(float visc)
 void FluidSquare::setInteration(int it)
 {
     this->_iteration = it;
+}
+
+void FluidSquare::setFade(float fade)
+{
+    this->_fade = fade;
 }
