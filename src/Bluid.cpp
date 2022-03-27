@@ -17,18 +17,14 @@ BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size *
     this->_size = size;
     this->_scale = scale;
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000090f}, 0.0000001f));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000000f, 0.0000100f}, 0.0000005f));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 280}, "fade", {0, 1}, 0.99));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,  70}, "viscosity", {0.00000000f, 0.0000100f}, 0.0000005f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 280}, "fading", {0.9, 1}, 0.99));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {0.01, 1}, 0.2));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 4));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "realism", {1, 12}, 4));
     this->_buf.create(size * size * scale * scale);
-}
-
-BluidEngine::~BluidEngine(void)
-{
-    for (Button *button : this->_buttonList)
-        delete button;
-    //add destructors
+    this->_logoTexture.loadFromFile("ressources/logo.png");
+    this->_logoSprite.setTexture(this->_logoTexture);
+    this->_logoSprite.setPosition({this->_window.getSize().x - 300.f, 400});
 }
 
 void BluidEngine::eventHandler(void)
@@ -44,7 +40,7 @@ void BluidEngine::eventHandler(void)
                 this->_fluid.setVisc(0.0000003f);
                 this->_fluid.setFade(0.99);
                 this->_fluid.setDt(0.2);
-                this->_fluid.setInteration(4);
+                this->_fluid.setIteration(4);
                 this->_buttonList[0]->setValue(0.0000009f);
                 this->_buttonList[1]->setValue(0.0000003f);
                 this->_buttonList[2]->setValue(0.99);
@@ -74,7 +70,7 @@ void BluidEngine::eventHandler(void)
         if (this->_buttonList[3]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
             this->_fluid.setDt(this->_buttonList[3]->getValue());
         if (this->_buttonList[4]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
-            this->_fluid.setInteration(this->_buttonList[4]->getValue());
+            this->_fluid.setIteration(this->_buttonList[4]->getValue());
     }
     _fluid.step();
 }
@@ -121,5 +117,6 @@ void BluidEngine::draw(void)
     this->_window.draw(this->_buf);
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
+    this->_window.draw(this->_logoSprite);
     this->_window.display();
 }

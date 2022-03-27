@@ -1,10 +1,10 @@
 #include "Button.hpp"
 
-std::string to_string_float(float value, int accuracy = 6)
+std::string Button::to_string_float(float value)
 {
     std::ostringstream out;
 
-    out.precision(accuracy);
+    out.precision(2);
     out << std::fixed << value;
     if (std::atof(out.str().c_str()) == 0.00 && std::atof(out.str().c_str()) == -0.00) {
         std::stringstream buffer;
@@ -46,7 +46,7 @@ Button::Button(sf::Vector2f pos, std::string name, sf::Vector2f scale, float val
     this->_textValue.setCharacterSize(20);
     this->_textValue.setFont(this->_font);
     this->_textValue.setFillColor(sf::Color(0, 0, 255));
-    this->_textValue.setString(to_string_float(this->_value + this->_scale.x, 1));
+    this->_textValue.setString(this->to_string_float(this->_value + this->_scale.x));
     this->_textValue.setOrigin({this->_textValue.getGlobalBounds().width / 2 + this->_textValue.getGlobalBounds().left, this->_textValue.getGlobalBounds().height + this->_textValue.getGlobalBounds().top});
     this->_textValue.setPosition({_boxValue.getGlobalBounds().left + (_boxValue.getGlobalBounds().width / 2), pos.y + 60});
 
@@ -72,7 +72,7 @@ void Button::setValue(sf::Vector2i mousePos)
     if (this->_pos.contains({(float)mousePos.x, (float)mousePos.y})) {
         this->_value = (mousePos.x - this->_pos.left) * (this->_scale.y - this->_scale.x) / 200;
         this->_boxSlider.setSize({this->_value * 200 / (this->_scale.y - this->_scale.x), 50});
-        this->_textValue.setString(to_string_float(this->_value + this->_scale.x, 1));
+        this->_textValue.setString(to_string_float(this->_value + this->_scale.x));
     }
 }
 
@@ -80,7 +80,7 @@ void Button::setValue(float value)
 {
     this->_value = value - this->_scale.x;
     this->_boxSlider.setSize({this->_value * 200 / (this->_scale.y - this->_scale.x), 50});
-    this->_textValue.setString(to_string_float(this->_value + this->_scale.x, 1));
+    this->_textValue.setString(to_string_float(this->_value + this->_scale.x));
 }
 
 float Button::getValue(void)

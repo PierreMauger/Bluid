@@ -20,7 +20,7 @@ int main(int ac, char **av)
         << "USER INTERACTION\n\tDrag left click across the top-left simulation "
         << "square\n\tto manipulate the fluid. Drag left click on a top-right\n"
         << "\tsimulation parameter slider to change its value.\n\tPress ESCAPE "
-        << "to end the simulation." << std::endl;
+        << "to end the simulation. Press R to reset the settings." << std::endl;
         return 0;
     }
     BluidEngine engine(std::atoi(av[1]), std::atoi(av[2]));

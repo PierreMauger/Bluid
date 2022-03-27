@@ -18,7 +18,7 @@ class FluidSquare {
 
     public:
         FluidSquare(int size, int iteration, float dt, float diffusion, float viscosity, float fade);
-        ~FluidSquare() = default;
+        virtual ~FluidSquare() = default;
 
         void step(void);
         void mouseDragged(sf::Vector2i actPos, sf::Vector2i lastPos);
@@ -27,7 +27,7 @@ class FluidSquare {
         void setFade(float fade);
         void setDt(float dt);
         void setVisc(float visc);
-        void setInteration(int it);
+        void setIteration(int it);
 
     private:
         int _size;

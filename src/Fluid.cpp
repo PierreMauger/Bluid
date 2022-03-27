@@ -256,7 +256,7 @@ void FluidSquare::setVisc(float visc)
     this->_visc = visc;
 }
 
-void FluidSquare::setInteration(int it)
+void FluidSquare::setIteration(int it)
 {
     this->_iteration = it;
 }

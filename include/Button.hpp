@@ -32,6 +32,7 @@ class Button {
         void setValue(float value);
         float getValue(void);
         sf::FloatRect getPos(void);
+        std::string to_string_float(float value);
 };
 
 #endif // BUTTON_HPP
