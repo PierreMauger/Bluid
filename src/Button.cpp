@@ -28,6 +28,7 @@ Button::Button(sf::Vector2f pos, std::string name, sf::Vector2f scale, float val
     this->_emptyBox.setPosition({pos.x + 100, pos.y + 25});
     this->_emptyBox.setSize({200, 50});
     this->_emptyBox.setOutlineThickness(2);
+    this->_emptyBox.setOutlineColor(sf::Color(0, 0, 255));
     this->_emptyBox.setFillColor(sf::Color(0, 0, 0, 0));
 
     this->_boxSlider.setPosition({pos.x + 100, pos.y + 25});
@@ -38,18 +39,20 @@ Button::Button(sf::Vector2f pos, std::string name, sf::Vector2f scale, float val
 
     this->_boxValue.setPosition({pos.x + 320, pos.y + 25});
     this->_boxValue.setSize({60, 50});
+    this->_boxValue.setOutlineColor(sf::Color(0, 0, 255));
     this->_boxValue.setFillColor(sf::Color(135, 206, 240));
     this->_boxValue.setOutlineThickness(2);
 
     this->_textValue.setCharacterSize(20);
     this->_textValue.setFont(this->_font);
+    this->_textValue.setFillColor(sf::Color(0, 0, 255));
     this->_textValue.setString(to_string_float(this->_value + this->_scale.x, 1));
     this->_textValue.setOrigin({this->_textValue.getGlobalBounds().width / 2 + this->_textValue.getGlobalBounds().left, this->_textValue.getGlobalBounds().height + this->_textValue.getGlobalBounds().top});
     this->_textValue.setPosition({_boxValue.getGlobalBounds().left + (_boxValue.getGlobalBounds().width / 2), pos.y + 60});
-    this->_textValue.setOutlineThickness(1);
 
     this->_name.setCharacterSize(20);
     this->_name.setFont(this->_font);
+    this->_name.setFillColor(sf::Color(0, 0, 255));
     this->_name.setString(name);
     this->_name.setOrigin({0, this->_name.getGlobalBounds().height + this->_name.getGlobalBounds().top});
     this->_name.setPosition({pos.x, pos.y + 60});

@@ -103,7 +103,7 @@ void BluidEngine::draw(void)
 {
     int color = 0;
 
-    this->_window.clear(sf::Color::Black);
+    this->_window.clear(sf::Color(0, 0, 30));
     for (int j = 0; j < (int)this->_size; j++) {
         for (int i = 0; i < (int)this->_size; i++) {
             color = 40 + (this->_fluid.getDensity(i, j) * 2000);
