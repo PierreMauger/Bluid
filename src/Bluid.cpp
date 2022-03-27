@@ -14,9 +14,9 @@ BluidEngine::BluidEngine(void) : _fluid(512, 8, 0.2f, 0.0000001f, 0.0000001f)
     this->_window.setFramerateLimit(60);
     this->_lastPos = {0, 0};
     this->_actPos = {0, 0};
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {3, 4}, 3.2));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 100}, "viscosity", {0, 200}, 50.0));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 200}, "timestep", {-1, 1}, 0.8));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000009f}, 0.00000005f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000001f, 0.0000010f}, 0.0000001f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {-1, 1}, 0.8));
     this->_buf.create(262144);
 }
 
