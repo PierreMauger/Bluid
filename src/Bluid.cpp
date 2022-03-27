@@ -8,15 +8,15 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(std::size_t size) : _vertices(size * size * 2) ,_fluid(size, 8, 0.2f, 0.0001f, 0.0000001f)
+BluidEngine::BluidEngine(std::size_t size) : _vertices(size * size * 2) ,_fluid(size, 8, 0.2f, 0.0000009f, 0.0000003f)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
     this->_lastPos = {0, 0};
     this->_actPos = {0, 0};
     this->_size = size;
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000090f}, 0.0000001f));
-    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000000f, 0.0000100f}, 0.0000005f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000050f}, 0.0000009f));
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.0000000001f, 0.0000009f}, 0.0000003f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {0, 1}, 0.2));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 8));
     this->_buf.create(size * size);
@@ -38,11 +38,12 @@ void BluidEngine::eventHandler(void)
             if (this->_event.key.code == sf::Keyboard::Escape)
                 this->_window.close();
             if (this->_event.key.code == sf::Keyboard::R) {
-                this->_fluid.setDiffusion(0.0000005f);
+                this->_fluid.setDiffusion(0.0000009f);
+                this->_fluid.setVisc(0.0000003f);
                 this->_fluid.setDt(0.2);
                 this->_fluid.setInteration(8);
-                this->_buttonList[0]->setValue(0.0000001f);
-                this->_buttonList[1]->setValue(0.0000005f);
+                this->_buttonList[0]->setValue(0.0000009f);
+                this->_buttonList[1]->setValue(0.0000003f);
                 this->_buttonList[2]->setValue(0.2);
                 this->_buttonList[3]->setValue(8);
             }
@@ -94,8 +95,6 @@ void BluidEngine::draw(void)
     int color = 0;
 
     this->_window.clear(sf::Color::Black);
-    for (Button *button : this->_buttonList)
-        button->draw(this->_window);
     for (std::size_t j = 0; j < this->_size; j++) {
         for (std::size_t i = 0; i < this->_size; i++) {
             _vertices[IX(i, j, this->_size)].position = {(float)i, (float)j};
@@ -105,5 +104,7 @@ void BluidEngine::draw(void)
     }
     this->_buf.update(&this->_vertices[0]);
     this->_window.draw(this->_buf);
+    for (Button *button : this->_buttonList)
+        button->draw(this->_window);
     this->_window.display();
 }
