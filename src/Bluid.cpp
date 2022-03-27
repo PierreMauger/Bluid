@@ -109,12 +109,12 @@ void BluidEngine::draw(void)
     this->_window.clear(sf::Color(0, 0, 30));
     for (int j = 0; j < (int)this->_size; j++) {
         for (int i = 0; i < (int)this->_size; i++) {
-            color = 40 + (this->_fluid.getDensity(i, j) * 2000);
+            color = (this->_fluid.getDensity(i, j) * 2000);
             color = color > 255 ? 255 : color;
             for (int y = 0; y < (int)this->_scale; y++) {
                 for (int x = 0; x < (int)this->_scale; x++) {
                     _vertices[IX(i * this->_scale + x, j * this->_scale + y, this->_size * this->_scale)].position = {(float)(i * this->_scale + x), (float)(j * this->_scale + y)};
-                    _vertices[IX(i * this->_scale + x, j * this->_scale + y, this->_size * this->_scale)].color = {0, (sf::Uint8)(color / 2), (sf::Uint8)color, (sf::Uint8)(color)};
+                    _vertices[IX(i * this->_scale + x, j * this->_scale + y, this->_size * this->_scale)].color = {0, (sf::Uint8)(170 - color / 1.5), (sf::Uint8)color, (sf::Uint8)(color)};
                 }
             }
         }
