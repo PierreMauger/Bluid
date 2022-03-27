@@ -78,11 +78,11 @@ void BluidEngine::draw(void)
     this->_window.clear(sf::Color::Black);
     for (Button *button : this->_buttonList)
         button->draw(this->_window);
-    for (int j = 0; j < 512; j++) {
-        for (int i = 0; i < 512; i++) {
-            _vertices[IX(i, j, 512)].position = {(float)i, (float)j};
+    for (int j = 0; j < this->_size; j++) {
+        for (int i = 0; i < this->_size; i++) {
+            _vertices[IX(i, j, this->_size)].position = {(float)i, (float)j};
             color = 40 + (this->_fluid.getDensity(i, j) * 2000);
-            _vertices[IX(i, j, 512)].color = {0, 0, (sf::Uint8)(color > 255 ? 255 : color)};
+            _vertices[IX(i, j, this->_size)].color = {0, 0, (sf::Uint8)(color > 255 ? 255 : color)};
         }
     }
     this->_buf.update(this->_vertices);
