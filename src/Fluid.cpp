@@ -297,3 +297,23 @@ float FluidSquare::getDensity(int i, int j)
 
     return _density[IX(i, j, this->_size)];
 }
+
+void FluidSquare::setDiffusion(int diff)
+{
+    this->_diff = diff;
+}
+
+void FluidSquare::setDt(int dt)
+{
+    this->_dt = dt;
+}
+
+void FluidSquare::setVisc(int visc)
+{
+    this->_visc = visc;
+}
+
+void FluidSquare::setInteration(int it)
+{
+    this->_iteration = it;
+}

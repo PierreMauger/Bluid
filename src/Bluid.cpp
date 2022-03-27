@@ -8,16 +8,18 @@
 #include "Bluid.hpp"
 #include "Button.hpp"
 
-BluidEngine::BluidEngine(void) : _fluid(512, 8, 0.2f, 0.0000001f, 0.0000001f)
+BluidEngine::BluidEngine(std::size_t size) : _fluid(size, 8, 0.2f, 0.0000001f, 0.0000001f)
 {
     this->_window.create(sf::VideoMode(1920, 1080), "Bluid", sf::Style::Fullscreen);
     this->_window.setFramerateLimit(60);
     this->_lastPos = {0, 0};
     this->_actPos = {0, 0};
+    this->_size = size;
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f,   0}, "diffusion", {0.000000001f, 0.0000009f}, 0.00000005f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 70}, "viscosity", {0.00000001f, 0.0000010f}, 0.0000001f));
     this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 140}, "timestep", {-1, 1}, 0.8));
-    this->_buf.create(262144);
+    this->_buttonList.push_back(new Button({this->_window.getSize().x - 400.f, 210}, "iteration", {1, 12}, 4));
+    this->_buf.create(size * size);
 }
 
 BluidEngine::~BluidEngine(void)
@@ -39,7 +41,7 @@ void BluidEngine::eventHandler(void)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         this->_lastPos = this->_actPos;
         this->_actPos = sf::Mouse::getPosition(this->_window);
-        if (this->_actPos.x < 512 && this->_actPos.y < 512) {
+        if (this->_actPos.x < (int)this->_size && this->_actPos.y < (int)this->_size) {
             this->_fluid.mouseDragged(_actPos, _lastPos);
         }
         for (Button *button : this->_buttonList) {
