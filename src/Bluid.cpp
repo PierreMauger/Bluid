@@ -27,6 +27,13 @@ BluidEngine::BluidEngine(std::size_t size, std::size_t scale) : _vertices(size *
     this->_logoSprite.setPosition({this->_window.getSize().x - 300.f, 400});
 }
 
+BluidEngine::~BluidEngine(void)
+{
+    for (Button *button : this->_buttonList)
+        delete button;
+    //add destructors
+}
+
 void BluidEngine::eventHandler(void)
 {
     while (this->_window.pollEvent(this->_event)) {

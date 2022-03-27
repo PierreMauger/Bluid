@@ -36,7 +36,7 @@ private:
     sf::Sprite _logoSprite;
 public:
     BluidEngine(std::size_t size, std::size_t scale);
-    virtual ~BluidEngine() = default;
+    ~BluidEngine();
     bool isOpen(void);
     void update(void);
     void eventHandler(void);

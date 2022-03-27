@@ -27,12 +27,12 @@ class Button {
     public:
         Button(sf::Vector2f pos, std::string name, sf::Vector2f scale, float value);
         ~Button() = default;
+        std::string to_string_float(float value);
         void draw(sf::RenderWindow &window);
         void setValue(sf::Vector2i mousePos);
         void setValue(float value);
         float getValue(void);
         sf::FloatRect getPos(void);
-        std::string to_string_float(float value);
 };
 
 #endif // BUTTON_HPP
