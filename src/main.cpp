@@ -15,7 +15,7 @@ int main(int ac, char **av)
         std::cout << "\033[1;34mBluid\033[0m\n\tA fluid simulation program made"
         << " in C++ with SFML.\n\tCreated for an Epitech game jam in 2 days by "
         << "4 2nd year students:\n\tPierre HAMEL, Dorian AYOUL, Pierre MAUGER &"
-        << " Xavier TONNELIER\n\nARGUMENTS\n\t-h\tsee help\n\t[size] [scale]\t"
+        << " Xavier TONNELLIER\n\nARGUMENTS\n\t-h\tsee help\n\t[size] [scale]\t"
         << "start with a valid simulation size and scale (resolution)\n\n"
         << "USER INTERACTION\n\tDrag left click across the top-left simulation "
         << "square\n\tto manipulate the fluid. Drag left click on a top-right\n"
