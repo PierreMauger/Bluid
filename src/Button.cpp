@@ -73,7 +73,19 @@ void Button::setValue(sf::Vector2i mousePos)
     }
 }
 
+void Button::setValue(float value)
+{
+    this->_value = value - this->_scale.x;
+    this->_boxSlider.setSize({this->_value * 200 / (this->_scale.y - this->_scale.x), 50});
+    this->_textValue.setString(to_string_float(this->_value + this->_scale.x, 1));
+}
+
 float Button::getValue(void)
 {
     return this->_value + this->_scale.x;
+}
+
+sf::FloatRect Button::getPos(void)
+{
+    return this->_pos;
 }
