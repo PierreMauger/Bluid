@@ -41,10 +41,6 @@ public:
     void update(void);
     void eventHandler(void);
     void draw(void);
-    sf::RenderWindow &getWindow(void);
-    sf::Vector2i getActPos(void);
-    sf::Vector2i getLastPos(void);
-
 };
 
 #endif // BLUID_HPP

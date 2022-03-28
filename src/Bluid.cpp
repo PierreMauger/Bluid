@@ -59,15 +59,13 @@ void BluidEngine::eventHandler(void)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         this->_lastPos = this->_actPos;
         this->_actPos = sf::Mouse::getPosition(this->_window);
-        if (this->_actPos.x < (int)this->_size * (int)this->_scale && this->_actPos.y < (int)this->_size * (int)this->_scale) {
+        if (this->_actPos.x < (int)this->_size * (int)this->_scale && this->_actPos.y < (int)this->_size * (int)this->_scale)
             this->_fluid.mouseDragged(
                 {_actPos.x / (int)this->_scale, _actPos.y / (int)this->_scale},
                 {_lastPos.x / (int)this->_scale, _lastPos.y / (int)this->_scale}
             );
-        }
-        for (Button *button : this->_buttonList) {
+        for (Button *button : this->_buttonList)
             button->setValue(this->_actPos);
-        }
         if (this->_buttonList[0]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
             this->_fluid.setDiffusion(this->_buttonList[0]->getValue());
         if (this->_buttonList[1]->getPos().contains({(float)_actPos.x, (float)_actPos.y}))
@@ -85,21 +83,6 @@ void BluidEngine::eventHandler(void)
 bool BluidEngine::isOpen()
 {
     return this->_window.isOpen();
-}
-
-sf::RenderWindow &BluidEngine::getWindow(void)
-{
-    return this->_window;
-}
-
-sf::Vector2i BluidEngine::getActPos(void)
-{
-    return this->_actPos;
-}
-
-sf::Vector2i BluidEngine::getLastPos(void)
-{
-    return this->_lastPos;
 }
 
 void BluidEngine::draw(void)
@@ -122,8 +105,6 @@ void BluidEngine::draw(void)
         button->draw(this->_window);
     this->_buf.update(&this->_vertices[0]);
     this->_window.draw(this->_buf);
-    for (Button *button : this->_buttonList)
-        button->draw(this->_window);
     this->_window.draw(this->_logoSprite);
     this->_window.display();
 }
