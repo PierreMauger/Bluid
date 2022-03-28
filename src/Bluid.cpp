@@ -101,10 +101,10 @@ void BluidEngine::draw(void)
             }
         }
     }
-    for (Button *button : this->_buttonList)
-        button->draw(this->_window);
     this->_buf.update(&this->_vertices[0]);
     this->_window.draw(this->_buf);
     this->_window.draw(this->_logoSprite);
+    for (Button *button : this->_buttonList)
+        button->draw(this->_window);
     this->_window.display();
 }
